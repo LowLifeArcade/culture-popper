@@ -1,16 +1,15 @@
 from fastapi import FastAPI
-import random
+import sqlite3
+import os
 
 app = FastAPI()
+# run the following command in a Bash window: <uvicorn main:app --reload>
 
 @app.get("/")
 async def root():
-    msgs = [
-        {"reference": "Today, we're teaching poodles how to fly!"},
-        {"reference": "Megatron must be stopped — no matter the cost."},
-        {"reference": "You're a real blue flame special, aren't ya, son?"}
-    ]
+    conn = sqlite3.connect('culture-popper.db')
+    cur = conn.cursor()
 
-    msg = random.choice(msgs)
+    res= cur.execute('SELECT reference FROM pc_references ORDER BY RANDOM() LIMIT 1')
 
-    return msg
+    return res.fetchone()
