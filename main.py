@@ -1,12 +1,10 @@
 from fastapi import FastAPI
 import sqlite3
-import os
 
 app = FastAPI()
 
 @app.get("/")
 async def root():
-    print("get function called.")
     conn = sqlite3.connect('culture-popper.db')
     cur = conn.cursor()
 
