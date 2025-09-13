@@ -10,6 +10,6 @@ async def root():
     conn = sqlite3.connect('culture-popper.db')
     cur = conn.cursor()
 
-    res= cur.execute('SELECT reference FROM pc_references ORDER BY RANDOM() LIMIT 1')
+    res = cur.execute('SELECT reference FROM pc_references ORDER BY RANDOM() LIMIT 1')
 
     return res.fetchone()
