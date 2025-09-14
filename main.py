@@ -1,16 +1,17 @@
 from fastapi import FastAPI
-import random
+import sqlite3
 
 app = FastAPI()
 
 @app.get("/")
 async def root():
-    msgs = [
-        {"reference": "Today, we're teaching poodles how to fly!"},
-        {"reference": "Megatron must be stopped — no matter the cost."},
-        {"reference": "You're a real blue flame special, aren't ya, son?"}
-    ]
+    conn = sqlite3.connect('culture-popper.db')
+    cur = conn.cursor()
 
-    msg = random.choice(msgs)
-
+    try:
+        msg = cur.execute('SELECT reference FROM pc_references ORDER BY RANDOM() LIMIT 1').fetchone()
+    
+    except Exception as e:
+        msg = f"An error occured during a call to the 'get' function: {e}"
+    
     return msg
